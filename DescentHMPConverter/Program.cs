@@ -166,6 +166,12 @@ namespace DescentHMPConverter
 
         private static int ConvertHMPToMIDI(ProgramCall prog)
         {
+            if (prog.HmqMode != FMMode.None)
+            {
+                PrintHelp();
+                return 2;
+            }
+            
             MIDISequence midi;
             try
             {
@@ -196,35 +202,6 @@ namespace DescentHMPConverter
                             trk.AddEvent(new MIDIEvent(0, new MIDIControlChangeMessage(chm.Channel, MIDIControl.ChannelVolumeMSB, 0)), true);
                     }
                 }
-            }
-
-            if (prog.HmqMode != FMMode.None)
-            {
-                Console.WriteLine("Inverting FM patch changes for");
-                switch (prog.HmqMode)
-                {
-                    case FMMode.Melodic:
-                        Console.Write("MELODiC.BNK    DRUM.BNK");
-                        midi.RemapProgram(ReverseRemap(programMapMelodic));
-                        break;
-                    case FMMode.Intmelo:
-                        Console.Write("INTMELO.BNK    INTDRUM.BNK");
-                        midi.RemapProgram(ReverseRemap(programMapIntmelo));
-                        break;
-                    case FMMode.Hammelo:
-                        Console.Write("HAMMELO.BNK    HAMDRUM.BNK");
-                        midi.RemapProgram(ReverseRemap(programMapHammelo));
-                        break;
-                    case FMMode.Rickmelo:
-                        Console.Write("RICKMELO.BNK   RICKDRUM.BNK");
-                        midi.RemapProgram(ReverseRemap(programMapRickmelo));
-                        break;
-                    case FMMode.D2melod:
-                        Console.Write("D2MELOD.BNK    D2DRUMS.BNK");
-                        midi.RemapProgram(ReverseRemap(programMapD2melod));
-                        break;
-                }
-                Console.WriteLine();
             }
 
             try
@@ -295,7 +272,7 @@ namespace DescentHMPConverter
         static void PrintHelp()
         {
             Console.WriteLine("DescentHMPConverter /H [/F:mode] midifile hmpfile");
-            Console.WriteLine("DescentHMPConverter /M [/D] [/F:mode] hmpfile midifile");
+            Console.WriteLine("DescentHMPConverter /M [/D] hmpfile midifile");
             Console.WriteLine("");
             Console.WriteLine("  hmpfile     A path to a .HMP or .HMQ file, representing");
             Console.WriteLine("              a HMI MIDI P format file.");
