@@ -124,7 +124,7 @@ namespace DescentHMPConverter
                 switch (prog.HmqMode)
                 {
                     case FMMode.Melodic:
-                        Console.Write("MELODiC.BNK    DRUM.BNK");
+                        Console.Write("MELODIC.BNK    DRUM.BNK");
                         midi.RemapProgram(programMapMelodic);
                         break;
                     case FMMode.Intmelo:
@@ -432,12 +432,15 @@ namespace DescentHMPConverter
 
         internal class HOGFilePath : IFilePath
         {
+            private static Dictionary<string, HOGFile> hogFileCache = new Dictionary<string, HOGFile>();
             private HOGFile hog;
             private string fileName;
 
             internal HOGFilePath(string hogPath, string fileName)
             {
-                this.hog = new HOGFile(hogPath);
+                if (!hogFileCache.ContainsKey(hogPath))
+                    hogFileCache[hogPath] = new HOGFile(hogPath);
+                this.hog = hogFileCache[hogPath];
                 this.fileName = fileName;
             }
 
@@ -455,6 +458,11 @@ namespace DescentHMPConverter
             {
                 hog.ReplaceLump(new HOGLump(this.fileName, data));
                 hog.Write();
+            }
+
+            public void Close()
+            {
+                hog.Close();
             }
         }
 
