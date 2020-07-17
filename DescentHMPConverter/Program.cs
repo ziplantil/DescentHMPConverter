@@ -263,8 +263,8 @@ namespace DescentHMPConverter
 
         static void PrintHelp()
         {
-            Console.WriteLine("DescentHMPConverter /H [/F:mode] midifile hmpfile");
-            Console.WriteLine("DescentHMPConverter /M [/D] hmpfile midifile");
+            Console.WriteLine("DescentHMPConverter /H [/Y] [/F:mode] midifile hmpfile");
+            Console.WriteLine("DescentHMPConverter /M [/Y] [/D] hmpfile midifile");
             Console.WriteLine("");
             Console.WriteLine("  hmpfile     A path to a .HMP or .HMQ file, representing");
             Console.WriteLine("              a HMI MIDI P format file.");
@@ -275,8 +275,7 @@ namespace DescentHMPConverter
             Console.WriteLine("  /M          Converts a HMP file into a MIDI file.");
             Console.WriteLine("  /D          HMP file conversion should be faithful to how the");
             Console.WriteLine("              original HMI DOS driver would play it.");
-            Console.WriteLine("  /F          Also converts a .MIDI into a .HMQ for FM,");
-            Console.WriteLine("              or reverses this conversion for HMP->MIDI.");
+            Console.WriteLine("  /F          Also converts a .MIDI into a .HMQ for FM.");
             Console.WriteLine("              Only adjusts patch mappings; the .SNG still needs");
             Console.WriteLine("              to contain the correct .BNK references.");
             Console.WriteLine("                1    MELODIC/DRUM       (D1 & D2)");
